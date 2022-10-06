@@ -43,11 +43,12 @@ When('I successfully login', (datable) => {
         cy.get('#login_password').clear();
         cy.get('#login_password').type(el.password);
         cy.get('.btn-login').click();
+        cy.wait(5000)
     })
 });
 
 Then('I should be redirected to homepage', () => {
-    cy.wait(5000)
+    
     cy.url().should('include', '/app')
     cy.get('.page-title').contains('Home')
 });
@@ -67,13 +68,14 @@ When('I enter a sequenced password', (data) => {
     data.hashes().forEach((pw) => {
         cy.get('input[type=password]').type(pw.password);
         cy.get('[data-label="Save"]').click();
+        cy.wait(5000)
     })
 });
 
 Then('I should see an error message', () => {
     cy.get('.msgprint').should('include.text','Avoid sequences')
-    cy.get('.btn-modal-close').click();
-    cy.wait(5000)
+    cy.get('[data-dismiss="modal"]').click();
+    
 });
 
 When('I enter a common password', (data) => {
@@ -81,12 +83,13 @@ When('I enter a common password', (data) => {
         cy.get('input[type=password]').clear();
         cy.get('input[type=password]').type(pw.password);
         cy.get('[data-label="Save"]').click();
+        cy.wait(5000)
     })
 });
 
 Then('I should see an error msg', () => {
     cy.get('.msgprint').should('include.text','commonly used password')
-    cy.get('.btn-modal-close').click();
+    cy.get('[data-dismiss="modal"]').click();
 });
 
 When('I enter a valid password', (data) => {
